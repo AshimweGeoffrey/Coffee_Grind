@@ -1,4 +1,5 @@
 import React from "react";
+import { formatRWF } from "../utils/currency";
 import {
   categories,
   newArrivals,
@@ -7,6 +8,8 @@ import {
   services,
 } from "../data/products";
 import { useStore } from "../context/StoreContext";
+
+const EXCHANGE_RATE = 1; // prices already in RWF
 
 function Rating({ value }) {
   const stars = [];
@@ -76,8 +79,8 @@ export default function Home() {
                             {p.category}
                           </a>
                           <div className="price-box">
-                            <p className="price">${p.price.toFixed(2)}</p>
-                            <del>${p.oldPrice.toFixed(2)}</del>
+                            <p className="price">{formatRWF(p.price)}</p>
+                            <del>{formatRWF(p.oldPrice)}</del>
                           </div>
                         </div>
                       </div>
@@ -142,8 +145,8 @@ export default function Home() {
                       </a>
                       <Rating value={prod.rating} />
                       <div className="price-box">
-                        <p className="price">${prod.price.toFixed(2)}</p>
-                        <del>${prod.oldPrice.toFixed(2)}</del>
+                        <p className="price">{formatRWF(prod.price)}</p>
+                        <del>{formatRWF(prod.oldPrice)}</del>
                       </div>
                     </div>
                   </div>

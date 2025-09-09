@@ -1,10 +1,16 @@
 import React from "react";
 import Home from "./components/Home";
 import { StoreProvider, useStore } from "./context/StoreContext";
+import { formatRWF } from "./utils/currency";
+
+const EXCHANGE_RATE = 1; // prices already in RWF
 
 function CartDrawer({ open, onClose }) {
   const { state, dispatch } = useStore();
-  const total = state.cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
+  const total = state.cart.reduce(
+    (s, i) => s + i.price * EXCHANGE_RATE * i.qty,
+    0
+  );
   return (
     <div
       className={`drawer cart-drawer ${open ? "open" : ""}`}
@@ -28,7 +34,7 @@ function CartDrawer({ open, onClose }) {
             <div className="meta">
               <p className="title">{item.title}</p>
               <p className="price">
-                ${item.price.toFixed(2)} × {item.qty}
+                {formatRWF(item.price * EXCHANGE_RATE)} × {item.qty}
               </p>
               <button
                 className="remove-btn"
@@ -44,7 +50,7 @@ function CartDrawer({ open, onClose }) {
       </div>
       <div className="drawer-footer">
         <p className="total-label">Total</p>
-        <p className="total-value">${total}</p>
+        <p className="total-value">{formatRWF(total)}</p>
         <button className="checkout-btn" disabled={state.cart.length === 0}>
           Checkout (dummy)
         </button>
@@ -79,7 +85,7 @@ function WishlistDrawer({ open, onClose }) {
             <img src={item.images?.[0] || item.image} alt={item.title} />
             <div className="meta">
               <p className="title">{item.title}</p>
-              <p className="price">${item.price.toFixed(2)}</p>
+              <p className="price">{formatRWF(item.price * EXCHANGE_RATE)}</p>
               <button
                 className="remove-btn"
                 onClick={() =>
