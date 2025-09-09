@@ -86,6 +86,20 @@ function reducer(state, action) {
         ),
       };
     }
+    case "CLEAR_CART": {
+      return {
+        ...state,
+        cart: [],
+        notifications: [
+          ...state.notifications,
+          {
+            id: Date.now(),
+            type: "success",
+            message: "Order placed successfully",
+          },
+        ],
+      };
+    }
     default:
       return state;
   }
